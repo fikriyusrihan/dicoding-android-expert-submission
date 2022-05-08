@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">The Movie</string>
+    <string name="application_icon">Application icon</string>
+    <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
+    <string name="highlighted_movie_poster">Highlighted movie poster</string>
+    <string name="dummy_movie_title">Doctor Strange in the Multiverse of Madness</string>
+    <string name="highlighted_movie_rating">Highlighted movie rating</string>
+    <string name="dummy_movie_rating">4.8</string>
+    <string name="dummy_movie_information">2022 | Adventure | 2h 6m</string>
+    <string name="trending">Trending</string>
+    <string name="see_more">See more</string>
+    <string name="movie_poster">Movie poster</string>
 </resources>
