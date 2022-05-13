@@ -14,4 +14,10 @@
     <string name="latest">Latest</string>
     <string name="upcoming">Upcoming</string>
     <string name="popular">Popular</string>
+    <string name="overview">Overview</string>
+    <string name="dummy_movie_overview">Dr. Stephen Strange casts a forbidden spell that opens the doorway to the multiverse, including alternate versions of himself, whose threat to humanity is too great for the combined forces of Strange, Wong, and Wanda Maximoff.</string>
+    <string name="cast">Cast</string>
+    <string name="related_movies">Related Movies</string>
+    <string name="dummy_role">Peter Parker / Spider-Man</string>
+    <string name="dummy_cast">Tom Holland</string>
 </resources>

@@ -53,13 +53,13 @@ dependencies {
     // KTX
     implementation 'androidx.activity:activity-ktx:1.4.0'
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
-    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.5.0-beta01"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-beta01"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-beta01"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-beta01"
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-rc01"
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -72,13 +72,16 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.13.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.1'
 
     // Flexbox
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     // Shimmer Loading
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // Circle Image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

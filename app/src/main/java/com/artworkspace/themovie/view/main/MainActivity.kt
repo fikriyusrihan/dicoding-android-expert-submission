@@ -1,4 +1,4 @@
-package com.artworkspace.themovie
+package com.artworkspace.themovie.view.main
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
+import com.artworkspace.themovie.R
 import com.artworkspace.themovie.core.ui.MovieHorizontalAdapter
 import com.artworkspace.themovie.core.utils.animateAlpha
 import com.artworkspace.themovie.core.utils.getImageOriginalUrl

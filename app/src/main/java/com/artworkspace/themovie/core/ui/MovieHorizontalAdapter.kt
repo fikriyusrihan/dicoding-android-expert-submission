@@ -1,15 +1,17 @@
 package com.artworkspace.themovie.core.ui
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.artworkspace.themovie.core.data.source.remote.response.Movie
 import com.artworkspace.themovie.core.utils.getImageUrl
 import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.core.utils.setImageFromUrl
 import com.artworkspace.themovie.databinding.ItemMovieHorizontalBinding
+import com.artworkspace.themovie.view.detail.DetailActivity
+import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 
@@ -25,10 +27,16 @@ class MovieHorizontalAdapter(private val movies: List<Movie>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = movies[position]
+        val context = holder.itemView.context
+
         holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, movie.title, Toast.LENGTH_SHORT).show()
+            Intent(context, DetailActivity::class.java).also { intent ->
+                intent.putExtra(EXTRA_MOVIE_DETAIL, movie.id)
+                context.startActivity(intent)
+            }
         }
-        holder.bind(holder.itemView.context, movie)
+
+        holder.bind(context, movie)
     }
 
     override fun getItemCount(): Int = movies.size
@@ -45,10 +53,10 @@ class MovieHorizontalAdapter(private val movies: List<Movie>) :
         }
 
         fun bind(context: Context, movie: Movie) {
-            val rating = movie.voteAverage / 2
+            val rating = movie.voteAverage.div(2)
             binding.apply {
                 tvMovieItemTitle.text = movie.title
-                tvMovieItemRating.text = rating.toString()
+                tvMovieItemRating.text = String.format("%.2f", rating)
 
                 ivMovieItemStar.parseMovieRating(rating.toInt())
                 ivMovieItemPoster.setImageFromUrl(

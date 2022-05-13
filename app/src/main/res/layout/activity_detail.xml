@@ -7,7 +7,7 @@
     tools:context=".view.main.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/main_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -16,15 +16,7 @@
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:elevation="4dp"
-        android:paddingVertical="24dp">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="@string/application_icon"
-            android:src="@drawable/ic_the_movie" />
-
-    </androidx.appcompat.widget.Toolbar>
+        android:paddingVertical="24dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -41,7 +33,7 @@
             android:paddingBottom="48dp">
 
             <ImageView
-                android:id="@+id/iv_main_poster"
+                android:id="@+id/iv_movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="560dp"
                 android:contentDescription="@string/highlighted_movie_poster"
@@ -54,13 +46,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="@drawable/poster_mask"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_main_poster"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_movie_poster"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_main_title"
+                android:id="@+id/tv_movie_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -68,12 +60,12 @@
                 android:fontFamily="@font/montserrat_semibold"
                 android:textAlignment="center"
                 android:textSize="32sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_main_information"
-                app:layout_constraintEnd_toEndOf="@+id/tv_main_information"
-                app:layout_constraintStart_toStartOf="@+id/tv_main_information" />
+                app:layout_constraintBottom_toTopOf="@+id/tv_movie_information"
+                app:layout_constraintEnd_toEndOf="@+id/tv_movie_information"
+                app:layout_constraintStart_toStartOf="@+id/tv_movie_information" />
 
             <TextView
-                android:id="@+id/tv_main_information"
+                android:id="@+id/tv_movie_information"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
@@ -95,20 +87,20 @@
                 android:alpha="0"
                 android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_main_poster"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_movie_poster"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:id="@+id/iv_main_rating"
+                    android:id="@+id/iv_movie_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/highlighted_movie_rating"
                     android:src="@drawable/ic_rating_4" />
 
                 <TextView
-                    android:id="@+id/tv_main_rating"
+                    android:id="@+id/tv_movie_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -122,7 +114,7 @@
                 android:layout_marginBottom="32dp"
                 android:background="#011B43"
                 android:foreground="@drawable/poster_mask"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_main_poster"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_movie_poster"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -131,150 +123,71 @@
                 app:shimmer_repeat_mode="restart" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/trending"
+                android:text="@string/overview"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_main_poster"
-                tools:viewBindingIgnore="true" />
+                app:layout_constraintTop_toBottomOf="@id/iv_movie_poster" />
 
             <TextView
-                android:id="@+id/tv_trending_more"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_movie_overview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:text="@string/see_more"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_trending"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
-                android:scrollbarSize="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_movie_horizontal" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_rv_trending"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
-                android:layout_marginTop="8dp"
-                android:background="#011B43"
-                android:foreground="@drawable/poster_mask"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:shimmer_auto_start="true"
-                app:shimmer_duration="800"
-                app:shimmer_repeat_mode="restart" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/upcoming"
+                android:text="@string/cast"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_trending"
-                tools:viewBindingIgnore="true" />
-
-            <TextView
-                android:id="@+id/tv_latest_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:text="@string/see_more"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_movie_overview" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_upcoming"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:id="@+id/rv_detail_cast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
-                android:scrollbarSize="0dp"
+                android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_movie_horizontal" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_rv_upcoming"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
-                android:layout_marginTop="8dp"
-                android:background="#011B43"
-                android:foreground="@drawable/poster_mask"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2"
-                app:shimmer_auto_start="true"
-                app:shimmer_duration="800"
-                app:shimmer_repeat_mode="restart" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_movie_cast" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/popular"
+                android:text="@string/related_movies"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_upcoming"
-                tools:viewBindingIgnore="true" />
-
-            <TextView
-                android:id="@+id/tv_popular_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:text="@string/see_more"
-                app:layout_constraintBottom_toBottomOf="@+id/textView3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@id/rv_detail_cast" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_popular"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
+                android:id="@+id/rv_related_movies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:scrollbarSize="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_movie_horizontal" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_rv_popular"
-                android:layout_width="0dp"
-                android:layout_height="240dp"
-                android:layout_marginTop="8dp"
-                android:background="#011B43"
-                android:foreground="@drawable/poster_mask"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                app:shimmer_auto_start="true"
-                app:shimmer_duration="800"
-                app:shimmer_repeat_mode="restart" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

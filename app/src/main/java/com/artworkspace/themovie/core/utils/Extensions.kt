@@ -47,7 +47,7 @@ fun ImageView.parseMovieRating(rating: Int) {
  * @param path Image path
  * @return String
  */
-fun getImageOriginalUrl(path: String): String = "$API_IMG_ORIGINAL_ENDPOINT$path"
+fun getImageOriginalUrl(path: String?): String = "$API_IMG_ORIGINAL_ENDPOINT$path"
 
 
 /**
@@ -56,7 +56,7 @@ fun getImageOriginalUrl(path: String): String = "$API_IMG_ORIGINAL_ENDPOINT$path
  * @param path Image path
  * @return String
  */
-fun getImageUrl(path: String): String = "$API_IMG_ENDPOINT$path"
+fun getImageUrl(path: String?): String = "$API_IMG_ENDPOINT$path"
 
 
 /**

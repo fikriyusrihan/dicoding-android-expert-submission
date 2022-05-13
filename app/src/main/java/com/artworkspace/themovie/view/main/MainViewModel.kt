@@ -1,4 +1,4 @@
-package com.artworkspace.themovie
+package com.artworkspace.themovie.view.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
