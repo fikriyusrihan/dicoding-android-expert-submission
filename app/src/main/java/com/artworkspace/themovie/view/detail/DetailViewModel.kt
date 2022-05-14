@@ -3,11 +3,14 @@ package com.artworkspace.themovie.view.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.artworkspace.themovie.core.data.MovieRepository
+import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
 import com.artworkspace.themovie.core.data.source.remote.response.DetailMovieResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListCastResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListMovieResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,4 +44,33 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      */
     fun getMovieCasts(id: Int): LiveData<Result<ListCastResponse>> =
         movieRepository.getMovieCasts(id).asLiveData()
+
+
+    /**
+     * Save a movie as favorite to the database
+     *
+     * @param id Favorite movie id
+     */
+    fun saveMovieAsFavorite(id: Int) {
+        viewModelScope.launch {
+            movieRepository.getMovieDetail(id).collect { result ->
+                result.onSuccess { movieResponse ->
+                    val movie = MovieEntity(
+                        id = movieResponse.id,
+                        title = movieResponse.title,
+                        overview = movieResponse.overview,
+                        posterPath = movieResponse.posterPath,
+                        voteAverage = movieResponse.voteAverage
+                    )
+                    movieRepository.saveMovieAsFavorite(movie)
+                }
+            }
+        }
+    }
+
+    fun deleteMovieFromFavorite(id: Int) {
+        viewModelScope.launch {
+            movieRepository.deleteMovieFromFavorite(id)
+        }
+    }
 }

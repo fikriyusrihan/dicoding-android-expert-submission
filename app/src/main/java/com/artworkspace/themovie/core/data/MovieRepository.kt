@@ -1,5 +1,7 @@
 package com.artworkspace.themovie.core.data
 
+import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
+import com.artworkspace.themovie.core.data.source.local.room.MovieDao
 import com.artworkspace.themovie.core.data.source.remote.network.ApiService
 import com.artworkspace.themovie.core.data.source.remote.response.DetailMovieResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListCastResponse
@@ -9,7 +11,10 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(private val apiService: ApiService) {
+class MovieRepository @Inject constructor(
+    private val apiService: ApiService,
+    private val movieDao: MovieDao
+) {
 
     /**
      * Provide a flow with now playing movies data
@@ -106,5 +111,15 @@ class MovieRepository @Inject constructor(private val apiService: ApiService) {
         emit(Result.success(response))
     }.catch { e ->
         emit(Result.failure(e))
+    }
+
+    fun getAllFavoriteMovies(): Flow<List<MovieEntity>> = movieDao.getAllFavoriteMovies()
+
+    suspend fun saveMovieAsFavorite(movie: MovieEntity) {
+        movieDao.saveMovieAsFavorite(movie)
+    }
+
+    suspend fun deleteMovieFromFavorite(id: Int) {
+        movieDao.deleteMovieFromFavorite(id)
     }
 }

@@ -45,7 +45,11 @@ class DetailActivity : AppCompatActivity() {
         fetchAllData(id)
 
         binding.toggleFavorite.setOnCheckedChangeListener { _, b ->
-            Toast.makeText(this, b.toString(), Toast.LENGTH_SHORT).show()
+            if (b) {
+                detailViewModel.saveMovieAsFavorite(id)
+            } else {
+                detailViewModel.deleteMovieFromFavorite(id)
+            }
         }
     }
 
