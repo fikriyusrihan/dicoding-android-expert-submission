@@ -3,6 +3,7 @@ package com.artworkspace.themovie.view.detail
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,9 +26,10 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityDetailBinding
+    private var id: Int = -1
     private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,14 +43,28 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val id = intent.getIntExtra(EXTRA_MOVIE_DETAIL, 0)
+        id = intent.getIntExtra(EXTRA_MOVIE_DETAIL, 0)
         fetchAllData(id)
 
-        binding.toggleFavorite.setOnCheckedChangeListener { _, b ->
-            if (b) {
-                detailViewModel.saveMovieAsFavorite(id)
-            } else {
-                detailViewModel.deleteMovieFromFavorite(id)
+        binding.toggleFavorite.setOnClickListener(this)
+    }
+
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.toggle_favorite -> {
+                val isChecked = binding.toggleFavorite.isChecked
+                if (isChecked) {
+                    detailViewModel.saveMovieAsFavorite(id)
+                    Toast.makeText(this, getString(R.string.saved_as_favorite), Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    detailViewModel.deleteMovieFromFavorite(id)
+                    Toast.makeText(
+                        this,
+                        getString(R.string.deleted_from_favorite),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
@@ -169,6 +185,10 @@ class DetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
                 finish()
             }
+        }
+
+        detailViewModel.isFavoriteMovie(id).observe(this) { isFavorite ->
+            binding.toggleFavorite.isChecked = isFavorite
         }
     }
 

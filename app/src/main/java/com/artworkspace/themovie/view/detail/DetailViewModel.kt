@@ -73,4 +73,7 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
             movieRepository.deleteMovieFromFavorite(id)
         }
     }
+
+    fun isFavoriteMovie(id: Int): LiveData<Boolean> =
+        movieRepository.isFavoriteMovie(id).asLiveData()
 }

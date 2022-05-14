@@ -115,6 +115,8 @@ class MovieRepository @Inject constructor(
 
     fun getAllFavoriteMovies(): Flow<List<MovieEntity>> = movieDao.getAllFavoriteMovies()
 
+    fun isFavoriteMovie(id: Int): Flow<Boolean> = movieDao.isFavoriteMovie(id)
+
     suspend fun saveMovieAsFavorite(movie: MovieEntity) {
         movieDao.saveMovieAsFavorite(movie)
     }

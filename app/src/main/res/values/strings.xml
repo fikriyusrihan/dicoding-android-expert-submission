@@ -20,4 +20,6 @@
     <string name="related_movies">Related Movies</string>
     <string name="dummy_role">Peter Parker / Spider-Man</string>
     <string name="dummy_cast">Tom Holland</string>
+    <string name="saved_as_favorite">Saved as favorite</string>
+    <string name="deleted_from_favorite">Deleted from favorite</string>
 </resources>
