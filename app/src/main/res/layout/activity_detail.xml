@@ -16,7 +16,20 @@
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:elevation="4dp"
-        android:paddingVertical="24dp" />
+        android:paddingVertical="24dp">
+
+        <ToggleButton
+            android:id="@+id/toggle_favorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/ic_toggle_favorite_background"
+            android:textOff=""
+            android:textOn="" />
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,20 +73,6 @@
                 android:fontFamily="@font/montserrat_semibold"
                 android:textAlignment="center"
                 android:textSize="32sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_movie_information"
-                app:layout_constraintEnd_toEndOf="@+id/tv_movie_information"
-                app:layout_constraintStart_toStartOf="@+id/tv_movie_information" />
-
-            <TextView
-                android:id="@+id/tv_movie_information"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:alpha="0"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:textAlignment="center"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/ll_rating_view"
                 app:layout_constraintEnd_toEndOf="@+id/ll_rating_view"
                 app:layout_constraintStart_toStartOf="@+id/ll_rating_view" />
@@ -123,10 +122,11 @@
                 app:shimmer_repeat_mode="restart" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tv_overview_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:alpha="0"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/overview"
                 android:textSize="18sp"
@@ -139,15 +139,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="8dp"
+                android:alpha="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_overview_title" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tv_cast_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
+                android:alpha="0"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/cast"
@@ -160,20 +162,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
+                android:alpha="0"
                 android:layout_marginTop="8dp"
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintTop_toBottomOf="@+id/tv_cast_title"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_movie_cast" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/tv_related_movies_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:alpha="0"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/related_movies"
                 android:textSize="18sp"
@@ -184,8 +188,9 @@
                 android:id="@+id/rv_related_movies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:alpha="0"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/tv_related_movies_title"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_movie_horizontal" />
 

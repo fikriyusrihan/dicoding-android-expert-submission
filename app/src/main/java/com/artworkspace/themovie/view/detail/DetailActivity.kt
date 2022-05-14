@@ -43,6 +43,10 @@ class DetailActivity : AppCompatActivity() {
 
         val id = intent.getIntExtra(EXTRA_MOVIE_DETAIL, 0)
         fetchAllData(id)
+
+        binding.toggleFavorite.setOnCheckedChangeListener { _, b ->
+            Toast.makeText(this, b.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -58,7 +62,7 @@ class DetailActivity : AppCompatActivity() {
     private fun fetchAllData(id: Int) {
         detailViewModel.getRelatedMovies(id).observe(this) { result ->
             result.onSuccess { response ->
-                if (response.results != null) {
+                if (response.results != null && response.results.isNotEmpty()) {
                     val movies = response.results
                     val adapter = MovieHorizontalAdapter(movies)
 
@@ -73,6 +77,11 @@ class DetailActivity : AppCompatActivity() {
                         this.adapter = adapter
                         this.setHasFixedSize(true)
                         this.layoutManager = layoutManager
+                    }
+
+                    binding.apply {
+                        tvRelatedMoviesTitle.animateAlpha(true)
+                        rvRelatedMovies.animateAlpha(true)
                     }
                 }
             }
@@ -89,6 +98,11 @@ class DetailActivity : AppCompatActivity() {
                     this.adapter = adapter
                     this.setHasFixedSize(true)
                     this.layoutManager = layoutManager
+                }
+
+                binding.apply {
+                    tvCastTitle.animateAlpha(true)
+                    rvDetailCast.animateAlpha(true)
                 }
             }
         }
@@ -118,8 +132,9 @@ class DetailActivity : AppCompatActivity() {
                             ): Boolean {
                                 shimmerMainPoster.stopShimmer()
                                 shimmerMainPoster.animateAlpha(false)
+                                tvOverviewTitle.animateAlpha(true)
+                                tvMovieOverview.animateAlpha(true)
                                 tvMovieTitle.animateAlpha(true)
-                                tvMovieInformation.animateAlpha(true)
                                 llRatingView.animateAlpha(true)
 
                                 return false
@@ -134,8 +149,9 @@ class DetailActivity : AppCompatActivity() {
                             ): Boolean {
                                 shimmerMainPoster.stopShimmer()
                                 shimmerMainPoster.animateAlpha(false)
+                                tvOverviewTitle.animateAlpha(true)
+                                tvMovieOverview.animateAlpha(true)
                                 tvMovieTitle.animateAlpha(true)
-                                tvMovieInformation.animateAlpha(true)
                                 llRatingView.animateAlpha(true)
 
                                 return false

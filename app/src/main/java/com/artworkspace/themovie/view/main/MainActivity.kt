@@ -1,5 +1,6 @@
 package com.artworkspace.themovie.view.main
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
@@ -15,6 +16,8 @@ import com.artworkspace.themovie.core.utils.animateAlpha
 import com.artworkspace.themovie.core.utils.getImageOriginalUrl
 import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.databinding.ActivityMainBinding
+import com.artworkspace.themovie.view.detail.DetailActivity
+import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -72,7 +75,6 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-
     }
 
     /**
@@ -130,6 +132,13 @@ class MainActivity : AppCompatActivity() {
                                 }
                             })
                             .into(ivMainPoster)
+
+                        ivMainPoster.setOnClickListener {
+                            Intent(this@MainActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie.id)
+                                startActivity(intent)
+                            }
+                        }
                     }
                 }
             }
