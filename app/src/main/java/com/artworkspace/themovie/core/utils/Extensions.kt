@@ -11,6 +11,7 @@ import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
 import com.artworkspace.themovie.core.data.source.remote.response.MovieResponse
 import com.artworkspace.themovie.core.domain.model.Movie
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.ShimmerFrameLayout
 
 /**
  * Extension function to set image view from an url using Glide library
@@ -105,4 +106,18 @@ fun MovieResponse.mapToMovie(): Movie {
         posterPath = this.posterPath,
         voteAverage = this.voteAverage
     )
+}
+
+fun ShimmerFrameLayout.setVisibility(isVisible: Boolean) {
+    if (isVisible) {
+        this.apply {
+            startShimmer()
+            animateAlpha(true)
+        }
+    } else {
+        this.apply {
+            stopShimmer()
+            animateAlpha(false)
+        }
+    }
 }

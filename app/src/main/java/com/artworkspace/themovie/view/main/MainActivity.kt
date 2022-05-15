@@ -19,6 +19,10 @@ import com.artworkspace.themovie.databinding.ActivityMainBinding
 import com.artworkspace.themovie.view.detail.DetailActivity
 import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 import com.artworkspace.themovie.view.list.ListActivity
+import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_FAVORITE
+import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_POPULAR
+import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_TRENDING
+import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_UPCOMING
 import com.artworkspace.themovie.view.list.ListActivity.Companion.EXTRA_LIST_CATEGORY
 import com.artworkspace.themovie.view.search.SearchActivity
 import com.bumptech.glide.Glide
@@ -54,6 +58,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             tvTrendingMore.setOnClickListener(this@MainActivity)
             tvUpcomingMore.setOnClickListener(this@MainActivity)
             tvPopularMore.setOnClickListener(this@MainActivity)
+            btnErrorRetry.setOnClickListener(this@MainActivity)
         }
     }
 
@@ -61,21 +66,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (view.id) {
             R.id.tv_trending_more -> {
                 Intent(this, ListActivity::class.java).also { intent ->
-                    intent.putExtra(EXTRA_LIST_CATEGORY, "trending")
+                    intent.putExtra(EXTRA_LIST_CATEGORY, CATEGORY_TRENDING)
                     startActivity(intent)
                 }
             }
             R.id.tv_upcoming_more -> {
                 Intent(this, ListActivity::class.java).also { intent ->
-                    intent.putExtra(EXTRA_LIST_CATEGORY, "upcoming")
+                    intent.putExtra(EXTRA_LIST_CATEGORY, CATEGORY_UPCOMING)
                     startActivity(intent)
                 }
             }
             R.id.tv_popular_more -> {
                 Intent(this, ListActivity::class.java).also { intent ->
-                    intent.putExtra(EXTRA_LIST_CATEGORY, "popular")
+                    intent.putExtra(EXTRA_LIST_CATEGORY, CATEGORY_POPULAR)
                     startActivity(intent)
                 }
+            }
+            R.id.btn_error_retry -> {
+                getMovies()
             }
         }
     }
@@ -95,7 +103,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.menu_favorite -> {
                 Intent(this, ListActivity::class.java).also { intent ->
-                    intent.putExtra(EXTRA_LIST_CATEGORY, "favorite")
+                    intent.putExtra(EXTRA_LIST_CATEGORY, CATEGORY_FAVORITE)
                     startActivity(intent)
                 }
                 true
@@ -120,6 +128,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun getMovies() {
         val region = ConfigurationCompat.getLocales(resources.configuration)[0].country
+
+        binding.apply {
+            mainErrorMessage.visibility = View.GONE
+            mainScrollView.visibility = View.VISIBLE
+        }
 
         mainViewModel.getNowPlayingMovies(region).observe(this) { result ->
             result.onSuccess { response ->
@@ -179,6 +192,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
+
+            result.onFailure {
+                onErrorOccurred()
+            }
         }
 
         mainViewModel.getTrendingMovies(region).observe(this) { result ->
@@ -205,6 +222,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                         animateAlpha(false)
                     }
                 }
+            }
+
+            result.onFailure {
+                onErrorOccurred()
             }
         }
 
@@ -233,6 +254,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
+
+            result.onFailure {
+                onErrorOccurred()
+            }
         }
 
         mainViewModel.getPopularMovies(region).observe(this) { result ->
@@ -260,6 +285,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
+
+            result.onFailure {
+                onErrorOccurred()
+            }
+        }
+    }
+
+
+    /**
+     * Set UI error state when an error occurred
+     */
+    private fun onErrorOccurred() {
+        binding.apply {
+            mainErrorMessage.visibility = View.VISIBLE
+            mainScrollView.visibility = View.GONE
         }
     }
 }

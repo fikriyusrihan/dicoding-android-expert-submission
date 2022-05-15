@@ -1,6 +1,7 @@
 package com.artworkspace.themovie.view.list
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import com.artworkspace.themovie.R
 import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.ui.MovieVerticalAdapter
 import com.artworkspace.themovie.core.utils.mapToMovie
+import com.artworkspace.themovie.core.utils.setVisibility
 import com.artworkspace.themovie.databinding.ActivityListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,16 +35,16 @@ class ListActivity : AppCompatActivity() {
         region = ConfigurationCompat.getLocales(resources.configuration)[0].country
 
         when (intent.getStringExtra(EXTRA_LIST_CATEGORY)) {
-            "favorite" -> {
+            CATEGORY_FAVORITE -> {
                 parseFavoriteMovies()
             }
-            "trending" -> {
+            CATEGORY_TRENDING -> {
                 parseTrendingMovies()
             }
-            "upcoming" -> {
+            CATEGORY_UPCOMING -> {
                 parseUpcomingMovies()
             }
-            "popular" -> {
+            CATEGORY_POPULAR -> {
                 parsePopularMovies()
             }
             else -> {
@@ -79,7 +81,16 @@ class ListActivity : AppCompatActivity() {
                         this.adapter = adapter
                         this.layoutManager = layoutManager
                     }
+
+                    binding.shimmerRv.setVisibility(false)
+                    showErrorMessage(false)
+                } else {
+                    showErrorMessage(true, getString(R.string.there_is_no_data))
                 }
+            }
+
+            result.onFailure {
+                showErrorMessage(true, getString(R.string.an_error_occurred))
             }
         }
     }
@@ -105,7 +116,16 @@ class ListActivity : AppCompatActivity() {
                         this.adapter = adapter
                         this.layoutManager = layoutManager
                     }
+
+                    binding.shimmerRv.setVisibility(false)
+                    showErrorMessage(false)
+                } else {
+                    showErrorMessage(true, getString(R.string.there_is_no_data))
                 }
+            }
+
+            result.onFailure {
+                showErrorMessage(true, getString(R.string.an_error_occurred))
             }
         }
     }
@@ -132,7 +152,16 @@ class ListActivity : AppCompatActivity() {
                         this.adapter = adapter
                         this.layoutManager = layoutManager
                     }
+
+                    binding.shimmerRv.setVisibility(false)
+                    showErrorMessage(false)
+                } else {
+                    showErrorMessage(true, getString(R.string.there_is_no_data))
                 }
+            }
+
+            result.onFailure {
+                showErrorMessage(true, getString(R.string.an_error_occurred))
             }
         }
     }
@@ -143,23 +172,45 @@ class ListActivity : AppCompatActivity() {
     private fun parseFavoriteMovies() {
         supportActionBar?.title = getString(R.string.favorite)
         viewModel.getAllFavoriteMovies().observe(this) { movies ->
-            val list = mutableListOf<Movie>()
-            movies.forEach { movieEntity ->
-                list.add(movieEntity.mapToMovie())
+            if (movies.isNotEmpty()) {
+                val list = mutableListOf<Movie>()
+                movies.forEach { movieEntity ->
+                    list.add(movieEntity.mapToMovie())
+                }
+
+                val layoutManager = LinearLayoutManager(this)
+                val adapter = MovieVerticalAdapter(list)
+
+                val recyclerView = binding.rvList
+                recyclerView.apply {
+                    this.adapter = adapter
+                    this.layoutManager = layoutManager
+                }
+
+                showErrorMessage(false)
+
+            } else {
+                showErrorMessage(true, getString(R.string.there_is_no_data))
             }
 
-            val layoutManager = LinearLayoutManager(this)
-            val adapter = MovieVerticalAdapter(list)
+            binding.shimmerRv.setVisibility(false)
 
-            val recyclerView = binding.rvList
-            recyclerView.apply {
-                this.adapter = adapter
-                this.layoutManager = layoutManager
-            }
+        }
+    }
+
+    private fun showErrorMessage(isVisible: Boolean, message: String? = null) {
+        binding.apply {
+            rvList.visibility = if (isVisible) View.GONE else View.VISIBLE
+            mainMessage.visibility = if (isVisible) View.VISIBLE else View.GONE
+            tvMessage.text = message
         }
     }
 
     companion object {
         const val EXTRA_LIST_CATEGORY = "extra_list_category"
+        const val CATEGORY_POPULAR = "popular"
+        const val CATEGORY_FAVORITE = "favorite"
+        const val CATEGORY_TRENDING = "trending"
+        const val CATEGORY_UPCOMING = "upcoming"
     }
 }

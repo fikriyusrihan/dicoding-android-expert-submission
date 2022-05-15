@@ -26,4 +26,7 @@
     <string name="movie_rating">Movie rating</string>
     <string name="invalid_category">Invalid category</string>
     <string name="movie_title">Movie title</string>
+    <string name="an_error_occurred">An Error Occurred</string>
+    <string name="retry">Retry</string>
+    <string name="there_is_no_data">There is no data</string>
 </resources>
