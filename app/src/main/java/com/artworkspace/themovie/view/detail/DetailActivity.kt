@@ -2,7 +2,6 @@ package com.artworkspace.themovie.view.detail
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -43,7 +42,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        id = intent.getIntExtra(EXTRA_MOVIE_DETAIL, 0)
+        id = intent.getIntExtra(EXTRA_MOVIE_DETAIL, -1)
         fetchAllData(id)
 
         binding.toggleFavorite.setOnClickListener(this)
@@ -129,7 +128,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         detailViewModel.getMovieDetail(id).observe(this) { response ->
             response.onSuccess { movie ->
-                Log.d(TAG, "onCreate: $movie")
                 val rating = movie.voteAverage.div(2)
 
                 binding.apply {
@@ -182,7 +180,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             response.onFailure {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -194,6 +192,5 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         const val EXTRA_MOVIE_DETAIL = "extra_movie_detail"
-        private const val TAG = "DetailActivity"
     }
 }

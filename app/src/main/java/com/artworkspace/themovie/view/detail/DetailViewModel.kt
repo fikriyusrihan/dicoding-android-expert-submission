@@ -6,9 +6,9 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.artworkspace.themovie.core.data.MovieRepository
 import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
-import com.artworkspace.themovie.core.data.source.remote.response.DetailMovieResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListCastResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListMovieResponse
+import com.artworkspace.themovie.core.data.source.remote.response.Movie
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      * @param id Movie ID
      * @return LiveData
      */
-    fun getMovieDetail(id: Int): LiveData<Result<DetailMovieResponse>> =
+    fun getMovieDetail(id: Int): LiveData<Result<Movie>> =
         movieRepository.getMovieDetail(id).asLiveData()
 
     /**
@@ -68,12 +68,25 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
         }
     }
 
+
+    /**
+     * Delete a favorite movie from the database
+     *
+     * @param id Movie ID
+     */
     fun deleteMovieFromFavorite(id: Int) {
         viewModelScope.launch {
             movieRepository.deleteMovieFromFavorite(id)
         }
     }
 
+
+    /**
+     * Check a movie favorite status
+     *
+     * @param id Movie ID
+     * @return LiveData
+     */
     fun isFavoriteMovie(id: Int): LiveData<Boolean> =
         movieRepository.isFavoriteMovie(id).asLiveData()
 }

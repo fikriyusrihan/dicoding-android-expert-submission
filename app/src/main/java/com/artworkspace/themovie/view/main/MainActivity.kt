@@ -18,6 +18,8 @@ import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.databinding.ActivityMainBinding
 import com.artworkspace.themovie.view.detail.DetailActivity
 import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
+import com.artworkspace.themovie.view.list.ListActivity
+import com.artworkspace.themovie.view.list.ListActivity.Companion.EXTRA_LIST_CATEGORY
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -60,7 +62,10 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_favorite -> {
-                Toast.makeText(this, "Favorite", Toast.LENGTH_SHORT).show()
+                Intent(this, ListActivity::class.java).also { intent ->
+                    intent.putExtra(EXTRA_LIST_CATEGORY, "favorite")
+                    startActivity(intent)
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)

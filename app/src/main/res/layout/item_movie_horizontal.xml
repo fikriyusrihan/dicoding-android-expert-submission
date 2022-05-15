@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="140dp"
-    android:layout_marginEnd="8dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="8dp">
 
     <ImageView
         android:id="@+id/iv_movie_item_poster"
@@ -29,10 +29,10 @@
     <TextView
         android:id="@+id/tv_movie_item_title"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:layout_height="wrap_content"
         android:text="@string/dummy_movie_title"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
@@ -42,15 +42,15 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_marginHorizontal="8dp"
         android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/iv_movie_item_poster"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:viewBindingIgnore="true"
-        tools:ignore="UseCompoundDrawables">
+        tools:ignore="UseCompoundDrawables"
+        tools:viewBindingIgnore="true">
 
         <ImageView
             android:id="@+id/iv_movie_item_star"
