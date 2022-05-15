@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
@@ -21,6 +20,7 @@ import com.artworkspace.themovie.view.detail.DetailActivity
 import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 import com.artworkspace.themovie.view.list.ListActivity
 import com.artworkspace.themovie.view.list.ListActivity.Companion.EXTRA_LIST_CATEGORY
+import com.artworkspace.themovie.view.search.SearchActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -88,7 +88,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {
-                Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show()
+                Intent(this, SearchActivity::class.java).also { intent ->
+                    startActivity(intent)
+                }
                 true
             }
             R.id.menu_favorite -> {

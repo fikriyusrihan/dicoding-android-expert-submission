@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TheMovie">
         <activity
+            android:name=".view.search.SearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.list.ListActivity"
             android:exported="false" />
         <activity

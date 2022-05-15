@@ -108,20 +108,23 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         detailViewModel.getMovieCasts(id).observe(this) { result ->
             result.onSuccess { response ->
-                val casts = response.cast.slice(0..5)
-                val adapter = MovieCastAdapter(casts)
-                val layoutManager = LinearLayoutManager(this@DetailActivity)
+                if (response.cast.isNotEmpty()) {
+                    val casts =
+                        response.cast.slice(if (response.cast.size <= 5) 0 until response.cast.size else 0 until 5)
+                    val adapter = MovieCastAdapter(casts)
+                    val layoutManager = LinearLayoutManager(this@DetailActivity)
 
-                val recyclerView = binding.rvDetailCast
-                recyclerView.apply {
-                    this.adapter = adapter
-                    this.setHasFixedSize(true)
-                    this.layoutManager = layoutManager
-                }
+                    val recyclerView = binding.rvDetailCast
+                    recyclerView.apply {
+                        this.adapter = adapter
+                        this.setHasFixedSize(true)
+                        this.layoutManager = layoutManager
+                    }
 
-                binding.apply {
-                    tvCastTitle.animateAlpha(true)
-                    rvDetailCast.animateAlpha(true)
+                    binding.apply {
+                        tvCastTitle.animateAlpha(true)
+                        rvDetailCast.animateAlpha(true)
+                    }
                 }
             }
         }

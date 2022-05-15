@@ -25,4 +25,5 @@
     <string name="error">Error</string>
     <string name="movie_rating">Movie rating</string>
     <string name="invalid_category">Invalid category</string>
+    <string name="movie_title">Movie title</string>
 </resources>

@@ -89,9 +89,30 @@ interface ApiService {
     ): ListMovieResponse
 
 
+    /**
+     * Call the API that provide credit from a movie
+     *
+     * @param id Movie ID
+     * @param apiKey TheMovieDB API Key
+     * @return ListCastResponse
+     */
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCasts(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String = API_KEY
     ): ListCastResponse
+
+
+    /**
+     * Call the API that provide list of movies based on a query
+     *
+     * @param query Query (should be URI encoded)
+     * @param apiKey TheMovieDB API Key
+     * @return ListMovieResponse
+     */
+    @GET("search/movie")
+    suspend fun getMovieByQuery(
+        @Query("query") query: String,
+        @Query("api_key") apiKey: String = API_KEY
+    ): ListMovieResponse
 }
