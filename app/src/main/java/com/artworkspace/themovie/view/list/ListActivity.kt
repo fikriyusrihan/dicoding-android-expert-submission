@@ -36,9 +36,6 @@ class ListActivity : AppCompatActivity() {
         region = ConfigurationCompat.getLocales(resources.configuration)[0].country
 
         when (intent.getStringExtra(EXTRA_LIST_CATEGORY)) {
-            CATEGORY_FAVORITE -> {
-                parseFavoriteMovies()
-            }
             CATEGORY_TRENDING -> {
                 parseTrendingMovies()
             }
@@ -179,41 +176,6 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Fetch all favorite movies data and parse it to the related views
-     */
-    private fun parseFavoriteMovies() {
-        supportActionBar?.title = getString(R.string.favorite)
-        viewModel.getAllFavoriteMovies().observe(this) { movies ->
-            if (movies.isNotEmpty()) {
-                val layoutManager = LinearLayoutManager(this)
-                val adapter = MovieVerticalAdapter(movies)
-                adapter.setOnItemClickCallback(object : MovieVerticalAdapter.OnItemClickCallback {
-                    override fun onItemClicked(movie: Movie) {
-                        Intent(this@ListActivity, DetailActivity::class.java).also { intent ->
-                            intent.putExtra(DetailActivity.EXTRA_MOVIE_DETAIL, movie)
-                            startActivity(intent)
-                        }
-                    }
-                })
-
-                val recyclerView = binding.rvList
-                recyclerView.apply {
-                    this.adapter = adapter
-                    this.layoutManager = layoutManager
-                }
-
-                showErrorMessage(false)
-
-            } else {
-                showErrorMessage(true, getString(R.string.there_is_no_data))
-            }
-
-            binding.shimmerRv.setVisibility(false)
-
-        }
-    }
-
     private fun showErrorMessage(isVisible: Boolean, message: String? = null) {
         binding.apply {
             rvList.visibility = if (isVisible) View.GONE else View.VISIBLE
@@ -225,7 +187,6 @@ class ListActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_LIST_CATEGORY = "extra_list_category"
         const val CATEGORY_POPULAR = "popular"
-        const val CATEGORY_FAVORITE = "favorite"
         const val CATEGORY_TRENDING = "trending"
         const val CATEGORY_UPCOMING = "upcoming"
     }

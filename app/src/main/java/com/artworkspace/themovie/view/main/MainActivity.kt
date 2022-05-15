@@ -2,6 +2,7 @@ package com.artworkspace.themovie.view.main
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -20,7 +21,6 @@ import com.artworkspace.themovie.databinding.ActivityMainBinding
 import com.artworkspace.themovie.view.detail.DetailActivity
 import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 import com.artworkspace.themovie.view.list.ListActivity
-import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_FAVORITE
 import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_POPULAR
 import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_TRENDING
 import com.artworkspace.themovie.view.list.ListActivity.Companion.CATEGORY_UPCOMING
@@ -103,10 +103,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 true
             }
             R.id.menu_favorite -> {
-                Intent(this, ListActivity::class.java).also { intent ->
-                    intent.putExtra(EXTRA_LIST_CATEGORY, CATEGORY_FAVORITE)
-                    startActivity(intent)
-                }
+                val uri = Uri.parse("moviefavorite://favorite")
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
                 true
             }
             else -> super.onOptionsItemSelected(item)
