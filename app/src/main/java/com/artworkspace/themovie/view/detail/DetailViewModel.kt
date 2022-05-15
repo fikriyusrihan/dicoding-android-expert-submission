@@ -8,7 +8,7 @@ import com.artworkspace.themovie.core.data.MovieRepository
 import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
 import com.artworkspace.themovie.core.data.source.remote.response.ListCastResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListMovieResponse
-import com.artworkspace.themovie.core.data.source.remote.response.Movie
+import com.artworkspace.themovie.core.data.source.remote.response.MovieResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      * @param id Movie ID
      * @return LiveData
      */
-    fun getMovieDetail(id: Int): LiveData<Result<Movie>> =
+    fun getMovieDetail(id: Int): LiveData<Result<MovieResponse>> =
         movieRepository.getMovieDetail(id).asLiveData()
 
     /**

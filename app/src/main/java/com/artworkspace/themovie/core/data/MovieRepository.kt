@@ -5,7 +5,7 @@ import com.artworkspace.themovie.core.data.source.local.room.MovieDao
 import com.artworkspace.themovie.core.data.source.remote.network.ApiService
 import com.artworkspace.themovie.core.data.source.remote.response.ListCastResponse
 import com.artworkspace.themovie.core.data.source.remote.response.ListMovieResponse
-import com.artworkspace.themovie.core.data.source.remote.response.Movie
+import com.artworkspace.themovie.core.data.source.remote.response.MovieResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -78,7 +78,7 @@ class MovieRepository @Inject constructor(
      * @param id Movie ID
      * @return Flow
      */
-    fun getMovieDetail(id: Int): Flow<Result<Movie>> = flow {
+    fun getMovieDetail(id: Int): Flow<Result<MovieResponse>> = flow {
         val response = apiService.getDetailMovie(id)
         emit(Result.success(response))
     }.catch { e ->

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -33,7 +34,7 @@ import java.util.*
 import kotlin.random.Random
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel: MainViewModel by viewModels()
@@ -48,6 +49,35 @@ class MainActivity : AppCompatActivity() {
 
         setActivityFullScreen()
         getMovies()
+
+        binding.apply {
+            tvTrendingMore.setOnClickListener(this@MainActivity)
+            tvUpcomingMore.setOnClickListener(this@MainActivity)
+            tvPopularMore.setOnClickListener(this@MainActivity)
+        }
+    }
+
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.tv_trending_more -> {
+                Intent(this, ListActivity::class.java).also { intent ->
+                    intent.putExtra(EXTRA_LIST_CATEGORY, "trending")
+                    startActivity(intent)
+                }
+            }
+            R.id.tv_upcoming_more -> {
+                Intent(this, ListActivity::class.java).also { intent ->
+                    intent.putExtra(EXTRA_LIST_CATEGORY, "upcoming")
+                    startActivity(intent)
+                }
+            }
+            R.id.tv_popular_more -> {
+                Intent(this, ListActivity::class.java).also { intent ->
+                    intent.putExtra(EXTRA_LIST_CATEGORY, "popular")
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.ConfigurationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artworkspace.themovie.R
+import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.ui.MovieVerticalAdapter
+import com.artworkspace.themovie.core.utils.mapToMovie
 import com.artworkspace.themovie.databinding.ActivityListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +18,8 @@ class ListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListBinding
     private val viewModel: ListViewModel by viewModels()
+    private var region: String = "US"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +30,20 @@ class ListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        region = ConfigurationCompat.getLocales(resources.configuration)[0].country
+
         when (intent.getStringExtra(EXTRA_LIST_CATEGORY)) {
             "favorite" -> {
                 parseFavoriteMovies()
+            }
+            "trending" -> {
+                parseTrendingMovies()
+            }
+            "upcoming" -> {
+                parseUpcomingMovies()
+            }
+            "popular" -> {
+                parsePopularMovies()
             }
             else -> {
                 Toast.makeText(this, getString(R.string.invalid_category), Toast.LENGTH_SHORT)
@@ -43,13 +59,97 @@ class ListActivity : AppCompatActivity() {
     }
 
     /**
+     * Fetch all popular movies data and parse it to the related views
+     */
+    private fun parsePopularMovies() {
+        supportActionBar?.title = getString(R.string.popular)
+        viewModel.getAllPopularMovies(region).observe(this) { result ->
+            result.onSuccess { response ->
+                if (response.results != null) {
+                    val list = mutableListOf<Movie>()
+                    response.results.forEach { movieResponse ->
+                        list.add(movieResponse.mapToMovie())
+                    }
+
+                    val layoutManager = LinearLayoutManager(this)
+                    val adapter = MovieVerticalAdapter(list)
+
+                    val recyclerView = binding.rvList
+                    recyclerView.apply {
+                        this.adapter = adapter
+                        this.layoutManager = layoutManager
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Fetch all upcoming movies data and parse it to the related views
+     */
+    private fun parseUpcomingMovies() {
+        supportActionBar?.title = getString(R.string.upcoming)
+        viewModel.getAllUpcomingMovies(region).observe(this) { result ->
+            result.onSuccess { response ->
+                if (response.results != null) {
+                    val list = mutableListOf<Movie>()
+                    response.results.forEach { movieResponse ->
+                        list.add(movieResponse.mapToMovie())
+                    }
+
+                    val layoutManager = LinearLayoutManager(this)
+                    val adapter = MovieVerticalAdapter(list)
+
+                    val recyclerView = binding.rvList
+                    recyclerView.apply {
+                        this.adapter = adapter
+                        this.layoutManager = layoutManager
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Fetch all trending movies data and parse it to the related views
+     */
+    private fun parseTrendingMovies() {
+        supportActionBar?.title = getString(R.string.trending)
+        viewModel.getAllTrendingMovies(region).observe(this) { result ->
+            result.onSuccess { response ->
+                if (response.results != null) {
+                    val list = mutableListOf<Movie>()
+                    response.results.forEach { movieResponse ->
+                        list.add(movieResponse.mapToMovie())
+                    }
+
+                    val layoutManager = LinearLayoutManager(this)
+                    val adapter = MovieVerticalAdapter(list)
+
+                    val recyclerView = binding.rvList
+                    recyclerView.apply {
+                        this.adapter = adapter
+                        this.layoutManager = layoutManager
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Fetch all favorite movies data and parse it to the related views
      */
     private fun parseFavoriteMovies() {
         supportActionBar?.title = getString(R.string.favorite)
-        viewModel.getAllFavoriteMovie().observe(this) { movies ->
+        viewModel.getAllFavoriteMovies().observe(this) { movies ->
+            val list = mutableListOf<Movie>()
+            movies.forEach { movieEntity ->
+                list.add(movieEntity.mapToMovie())
+            }
+
             val layoutManager = LinearLayoutManager(this)
-            val adapter = MovieVerticalAdapter(movies)
+            val adapter = MovieVerticalAdapter(list)
 
             val recyclerView = binding.rvList
             recyclerView.apply {

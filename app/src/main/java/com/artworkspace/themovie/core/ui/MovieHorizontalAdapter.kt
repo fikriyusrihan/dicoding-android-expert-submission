@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.artworkspace.themovie.core.data.source.remote.response.Movie
+import com.artworkspace.themovie.core.data.source.remote.response.MovieResponse
 import com.artworkspace.themovie.core.utils.getImageUrl
 import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.core.utils.setImageFromUrl
@@ -16,7 +16,7 @@ import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexboxLayoutManager
 
 
-class MovieHorizontalAdapter(private val movies: List<Movie>) :
+class MovieHorizontalAdapter(private val movies: List<MovieResponse>) :
     RecyclerView.Adapter<MovieHorizontalAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,7 +52,7 @@ class MovieHorizontalAdapter(private val movies: List<Movie>) :
             }
         }
 
-        fun bind(context: Context, movie: Movie) {
+        fun bind(context: Context, movie: MovieResponse) {
             val rating = movie.voteAverage.div(2)
             binding.apply {
                 tvMovieItemTitle.text = movie.title

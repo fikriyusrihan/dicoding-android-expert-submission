@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
+import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.utils.getImageUrl
 import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.core.utils.setImageFromUrl
@@ -13,7 +13,7 @@ import com.artworkspace.themovie.databinding.ItemMovieVerticalBinding
 import com.artworkspace.themovie.view.detail.DetailActivity
 import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 
-class MovieVerticalAdapter(private val movies: List<MovieEntity>) :
+class MovieVerticalAdapter(private val movies: List<Movie>) :
     RecyclerView.Adapter<MovieVerticalAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -42,7 +42,7 @@ class MovieVerticalAdapter(private val movies: List<MovieEntity>) :
 
     inner class ViewHolder(private val binding: ItemMovieVerticalBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(context: Context, movie: MovieEntity) {
+        fun bind(context: Context, movie: Movie) {
             val rating = movie.voteAverage.div(2)
             binding.apply {
                 tvMovieItemTitle.text = movie.title
