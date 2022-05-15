@@ -1,13 +1,16 @@
 package com.artworkspace.themovie.view.detail
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artworkspace.themovie.R
+import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.ui.MovieCastAdapter
 import com.artworkspace.themovie.core.ui.MovieHorizontalAdapter
 import com.artworkspace.themovie.core.utils.animateAlpha
@@ -28,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityDetailBinding
-    private var id: Int = -1
+    private lateinit var movie: Movie
     private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,8 +45,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        id = intent.getIntExtra(EXTRA_MOVIE_DETAIL, -1)
-        fetchAllData(id)
+        movie = intent.getParcelableExtra(EXTRA_MOVIE_DETAIL)!!
+        fetchAllData(movie.id)
+        parseDetailMovieInformation()
 
         binding.toggleFavorite.setOnClickListener(this)
     }
@@ -53,11 +57,11 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             R.id.toggle_favorite -> {
                 val isChecked = binding.toggleFavorite.isChecked
                 if (isChecked) {
-                    detailViewModel.saveMovieAsFavorite(id)
+                    detailViewModel.saveMovieAsFavorite(movie)
                     Toast.makeText(this, getString(R.string.saved_as_favorite), Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    detailViewModel.deleteMovieFromFavorite(id)
+                    detailViewModel.deleteMovieFromFavorite(movie.id)
                     Toast.makeText(
                         this,
                         getString(R.string.deleted_from_favorite),
@@ -80,10 +84,18 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
      */
     private fun fetchAllData(id: Int) {
         detailViewModel.getRelatedMovies(id).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null && response.results.isNotEmpty()) {
-                    val movies = response.results
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val adapter = MovieHorizontalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieHorizontalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@DetailActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val layoutManager = FlexboxLayoutManager(this)
                     layoutManager.apply {
@@ -107,11 +119,12 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         detailViewModel.getMovieCasts(id).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.cast.isNotEmpty()) {
-                    val casts =
-                        response.cast.slice(if (response.cast.size <= 5) 0 until response.cast.size else 0 until 5)
-                    val adapter = MovieCastAdapter(casts)
+            result.onSuccess { casts ->
+                Log.d(TAG, "fetchAllData: $casts")
+                if (casts.isNotEmpty()) {
+                    val selectedCasts =
+                        casts.slice(if (casts.size <= 5) casts.indices else 0 until 5)
+                    val adapter = MovieCastAdapter(selectedCasts)
                     val layoutManager = LinearLayoutManager(this@DetailActivity)
 
                     val recyclerView = binding.rvDetailCast
@@ -127,64 +140,9 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 }
             }
-        }
 
-        detailViewModel.getMovieDetail(id).observe(this) { response ->
-            response.onSuccess { movie ->
-                val rating = movie.voteAverage.div(2)
-
-                binding.apply {
-                    tvMovieTitle.text = movie.title
-                    tvMovieRating.text = String.format("%.2f", rating)
-                    tvMovieOverview.text = movie.overview
-
-                    ivMovieRating.parseMovieRating(rating.toInt())
-
-                    Glide
-                        .with(this@DetailActivity)
-                        .load(getImageOriginalUrl(movie.posterPath))
-                        .error(R.drawable.image_load_error)
-                        .listener(object : RequestListener<Drawable> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                shimmerMainPoster.stopShimmer()
-                                shimmerMainPoster.animateAlpha(false)
-                                tvOverviewTitle.animateAlpha(true)
-                                tvMovieOverview.animateAlpha(true)
-                                tvMovieTitle.animateAlpha(true)
-                                llRatingView.animateAlpha(true)
-
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                shimmerMainPoster.stopShimmer()
-                                shimmerMainPoster.animateAlpha(false)
-                                tvOverviewTitle.animateAlpha(true)
-                                tvMovieOverview.animateAlpha(true)
-                                tvMovieTitle.animateAlpha(true)
-                                llRatingView.animateAlpha(true)
-
-                                return false
-                            }
-                        })
-                        .into(ivMoviePoster)
-                }
-            }
-
-            response.onFailure {
-                Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
-                finish()
+            result.onFailure {
+                Log.e(TAG, "fetchAllData: ${it.message}")
             }
         }
 
@@ -193,7 +151,66 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun parseDetailMovieInformation() {
+        val rating = movie.voteAverage.div(2)
+        binding.apply {
+            tvMovieTitle.text = movie.title
+            tvMovieRating.text = String.format("%.2f", rating)
+            tvMovieOverview.text = movie.overview
+
+            ivMovieRating.parseMovieRating(rating.toInt())
+
+            Glide
+                .with(this@DetailActivity)
+                .load(getImageOriginalUrl(movie.posterPath))
+                .error(R.drawable.image_load_error)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        shimmerMainPoster.stopShimmer()
+                        shimmerMainPoster.animateAlpha(false)
+                        tvOverviewTitle.animateAlpha(true)
+                        tvMovieOverview.animateAlpha(true)
+                        tvMovieTitle.animateAlpha(true)
+                        llRatingView.animateAlpha(true)
+
+                        Toast.makeText(
+                            this@DetailActivity,
+                            getString(R.string.an_error_occurred),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        shimmerMainPoster.stopShimmer()
+                        shimmerMainPoster.animateAlpha(false)
+                        tvOverviewTitle.animateAlpha(true)
+                        tvMovieOverview.animateAlpha(true)
+                        tvMovieTitle.animateAlpha(true)
+                        llRatingView.animateAlpha(true)
+
+                        return false
+                    }
+                })
+                .into(ivMoviePoster)
+        }
+    }
+
     companion object {
         const val EXTRA_MOVIE_DETAIL = "extra_movie_detail"
+        private const val TAG = "DetailActivity"
     }
 }

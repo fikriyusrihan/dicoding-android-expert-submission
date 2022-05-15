@@ -3,13 +3,13 @@ package com.artworkspace.themovie.view.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.artworkspace.themovie.core.data.MovieRepository
-import com.artworkspace.themovie.core.data.source.remote.response.ListMovieResponse
+import com.artworkspace.themovie.core.domain.model.Movie
+import com.artworkspace.themovie.core.domain.usecase.MovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val movieRepository: MovieRepository) :
+class MainViewModel @Inject constructor(private val movieUseCase: MovieUseCase) :
     ViewModel() {
 
     /**
@@ -18,8 +18,8 @@ class MainViewModel @Inject constructor(private val movieRepository: MovieReposi
      * @param region User region
      * @return LiveData
      */
-    fun getNowPlayingMovies(region: String): LiveData<Result<ListMovieResponse>> =
-        movieRepository.getNowPlayingMovies(region).asLiveData()
+    fun getNowPlayingMovies(region: String): LiveData<Result<List<Movie>>> =
+        movieUseCase.getNowPlayingMovies(region).asLiveData()
 
 
     /**
@@ -28,8 +28,8 @@ class MainViewModel @Inject constructor(private val movieRepository: MovieReposi
      * @param region User region
      * @return LiveData
      */
-    fun getTrendingMovies(region: String): LiveData<Result<ListMovieResponse>> =
-        movieRepository.getTrendingMovies(region).asLiveData()
+    fun getTrendingMovies(region: String): LiveData<Result<List<Movie>>> =
+        movieUseCase.getTrendingMovies(region).asLiveData()
 
 
     /**
@@ -38,8 +38,8 @@ class MainViewModel @Inject constructor(private val movieRepository: MovieReposi
      * @param region User region
      * @return LiveData
      */
-    fun getUpcomingMovies(region: String): LiveData<Result<ListMovieResponse>> =
-        movieRepository.getUpcomingMovies(region).asLiveData()
+    fun getUpcomingMovies(region: String): LiveData<Result<List<Movie>>> =
+        movieUseCase.getUpcomingMovies(region).asLiveData()
 
 
     /**
@@ -48,6 +48,6 @@ class MainViewModel @Inject constructor(private val movieRepository: MovieReposi
      * @param region User region
      * @return LiveData
      */
-    fun getPopularMovies(region: String): LiveData<Result<ListMovieResponse>> =
-        movieRepository.getPopularMovies(region).asLiveData()
+    fun getPopularMovies(region: String): LiveData<Result<List<Movie>>> =
+        movieUseCase.getPopularMovies(region).asLiveData()
 }

@@ -9,9 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artworkspace.themovie.R
-import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.ui.MovieVerticalAdapter
-import com.artworkspace.themovie.core.utils.mapToMovie
 import com.artworkspace.themovie.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -75,14 +73,9 @@ class SearchActivity : AppCompatActivity() {
     private fun searchMovie(query: String) {
         binding.pbLoading.visibility = View.VISIBLE
         viewModel.searchMovieByQuery(query).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val list = mutableListOf<Movie>()
-                    response.results.forEach { movieResponse ->
-                        list.add(movieResponse.mapToMovie())
-                    }
-
-                    val adapter = MovieVerticalAdapter(list)
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
+                    val adapter = MovieVerticalAdapter(movies)
                     val layoutManager = LinearLayoutManager(this)
 
                     val recyclerView = binding.rvMovies

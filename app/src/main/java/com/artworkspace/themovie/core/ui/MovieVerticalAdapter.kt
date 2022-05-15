@@ -1,7 +1,6 @@
 package com.artworkspace.themovie.core.ui
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +9,21 @@ import com.artworkspace.themovie.core.utils.getImageUrl
 import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.core.utils.setImageFromUrl
 import com.artworkspace.themovie.databinding.ItemMovieVerticalBinding
-import com.artworkspace.themovie.view.detail.DetailActivity
-import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 
 class MovieVerticalAdapter(private val movies: List<Movie>) :
     RecyclerView.Adapter<MovieVerticalAdapter.ViewHolder>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    /**
+     * Set an item click callback
+     *
+     * @param onItemClickCallback object that implements onItemClickCallback
+     */
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -28,13 +37,7 @@ class MovieVerticalAdapter(private val movies: List<Movie>) :
         val movie = movies[position]
         val context = holder.itemView.context
 
-        holder.itemView.setOnClickListener {
-            Intent(context, DetailActivity::class.java).also { intent ->
-                intent.putExtra(EXTRA_MOVIE_DETAIL, movie.id)
-                context.startActivity(intent)
-            }
-        }
-
+        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(movie) }
         holder.bind(context, movie)
     }
 
@@ -53,5 +56,9 @@ class MovieVerticalAdapter(private val movies: List<Movie>) :
                 ivMovieItemPoster.setImageFromUrl(context, getImageUrl(movie.posterPath))
             }
         }
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(movie: Movie)
     }
 }

@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
 import com.artworkspace.themovie.R
+import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.ui.MovieHorizontalAdapter
 import com.artworkspace.themovie.core.utils.animateAlpha
 import com.artworkspace.themovie.core.utils.getImageOriginalUrl
@@ -135,13 +136,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mainViewModel.getNowPlayingMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val resultLength = response.results.size
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
+                    val resultLength = movies.size
                     val seed = Calendar.getInstance().timeInMillis
 
                     val index = Random(seed).nextInt(0, resultLength)
-                    val movie = response.results[index]
+                    val movie = movies[index]
 
                     binding.apply {
                         tvMainTitle.text = movie.title
@@ -185,7 +186,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
                         ivMainPoster.setOnClickListener {
                             Intent(this@MainActivity, DetailActivity::class.java).also { intent ->
-                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie.id)
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie)
                                 startActivity(intent)
                             }
                         }
@@ -199,10 +200,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mainViewModel.getTrendingMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val movies = response.results
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val adapter = MovieHorizontalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieHorizontalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@MainActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val layoutManager = FlexboxLayoutManager(this)
                     layoutManager.apply {
@@ -230,10 +239,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mainViewModel.getUpcomingMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val movies = response.results
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val adapter = MovieHorizontalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieHorizontalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@MainActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val layoutManager = FlexboxLayoutManager(this)
                     layoutManager.apply {
@@ -261,10 +278,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         mainViewModel.getPopularMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val movies = response.results
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val adapter = MovieHorizontalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieHorizontalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@MainActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val layoutManager = FlexboxLayoutManager(this)
                     layoutManager.apply {

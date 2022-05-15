@@ -1,5 +1,6 @@
 package com.artworkspace.themovie.view.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.artworkspace.themovie.R
 import com.artworkspace.themovie.core.domain.model.Movie
 import com.artworkspace.themovie.core.ui.MovieVerticalAdapter
-import com.artworkspace.themovie.core.utils.mapToMovie
 import com.artworkspace.themovie.core.utils.setVisibility
 import com.artworkspace.themovie.databinding.ActivityListBinding
+import com.artworkspace.themovie.view.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -66,15 +67,19 @@ class ListActivity : AppCompatActivity() {
     private fun parsePopularMovies() {
         supportActionBar?.title = getString(R.string.popular)
         viewModel.getAllPopularMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val list = mutableListOf<Movie>()
-                    response.results.forEach { movieResponse ->
-                        list.add(movieResponse.mapToMovie())
-                    }
-
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val layoutManager = LinearLayoutManager(this)
-                    val adapter = MovieVerticalAdapter(list)
+                    val adapter = MovieVerticalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieVerticalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@ListActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(DetailActivity.EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val recyclerView = binding.rvList
                     recyclerView.apply {
@@ -101,15 +106,19 @@ class ListActivity : AppCompatActivity() {
     private fun parseUpcomingMovies() {
         supportActionBar?.title = getString(R.string.upcoming)
         viewModel.getAllUpcomingMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val list = mutableListOf<Movie>()
-                    response.results.forEach { movieResponse ->
-                        list.add(movieResponse.mapToMovie())
-                    }
-
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val layoutManager = LinearLayoutManager(this)
-                    val adapter = MovieVerticalAdapter(list)
+                    val adapter = MovieVerticalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieVerticalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@ListActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(DetailActivity.EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val recyclerView = binding.rvList
                     recyclerView.apply {
@@ -137,15 +146,19 @@ class ListActivity : AppCompatActivity() {
     private fun parseTrendingMovies() {
         supportActionBar?.title = getString(R.string.trending)
         viewModel.getAllTrendingMovies(region).observe(this) { result ->
-            result.onSuccess { response ->
-                if (response.results != null) {
-                    val list = mutableListOf<Movie>()
-                    response.results.forEach { movieResponse ->
-                        list.add(movieResponse.mapToMovie())
-                    }
-
+            result.onSuccess { movies ->
+                if (movies.isNotEmpty()) {
                     val layoutManager = LinearLayoutManager(this)
-                    val adapter = MovieVerticalAdapter(list)
+                    val adapter = MovieVerticalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieVerticalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@ListActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(DetailActivity.EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
 
                     val recyclerView = binding.rvList
                     recyclerView.apply {
@@ -173,13 +186,16 @@ class ListActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.favorite)
         viewModel.getAllFavoriteMovies().observe(this) { movies ->
             if (movies.isNotEmpty()) {
-                val list = mutableListOf<Movie>()
-                movies.forEach { movieEntity ->
-                    list.add(movieEntity.mapToMovie())
-                }
-
                 val layoutManager = LinearLayoutManager(this)
-                val adapter = MovieVerticalAdapter(list)
+                val adapter = MovieVerticalAdapter(movies)
+                adapter.setOnItemClickCallback(object : MovieVerticalAdapter.OnItemClickCallback {
+                    override fun onItemClicked(movie: Movie) {
+                        Intent(this@ListActivity, DetailActivity::class.java).also { intent ->
+                            intent.putExtra(DetailActivity.EXTRA_MOVIE_DETAIL, movie)
+                            startActivity(intent)
+                        }
+                    }
+                })
 
                 val recyclerView = binding.rvList
                 recyclerView.apply {

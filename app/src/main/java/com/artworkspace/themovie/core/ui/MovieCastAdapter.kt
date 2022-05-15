@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.artworkspace.themovie.core.data.source.remote.response.Cast
+import com.artworkspace.themovie.core.domain.model.Cast
 import com.artworkspace.themovie.core.utils.getImageUrl
 import com.artworkspace.themovie.core.utils.setImageFromUrl
 import com.artworkspace.themovie.databinding.ItemMovieCastBinding

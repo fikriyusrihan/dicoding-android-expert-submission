@@ -7,9 +7,6 @@ import android.widget.ImageView
 import com.artworkspace.themovie.BuildConfig.API_IMG_ENDPOINT
 import com.artworkspace.themovie.BuildConfig.API_IMG_ORIGINAL_ENDPOINT
 import com.artworkspace.themovie.R
-import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
-import com.artworkspace.themovie.core.data.source.remote.response.MovieResponse
-import com.artworkspace.themovie.core.domain.model.Movie
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 
@@ -76,37 +73,6 @@ fun View.animateAlpha(isVisible: Boolean, duration: Long = 400) {
         .start()
 }
 
-
-/**
- * Map MovieEntity object to Movie object
- *
- * @return Movie
- */
-fun MovieEntity.mapToMovie(): Movie {
-    return Movie(
-        id = this.id,
-        title = this.title,
-        overview = this.overview,
-        posterPath = this.posterPath,
-        voteAverage = this.voteAverage
-    )
-}
-
-
-/**
- * Map MovieResponse object to Movie object
- *
- * @return Movie
- */
-fun MovieResponse.mapToMovie(): Movie {
-    return Movie(
-        id = this.id,
-        title = this.title,
-        overview = this.overview,
-        posterPath = this.posterPath,
-        voteAverage = this.voteAverage
-    )
-}
 
 fun ShimmerFrameLayout.setVisibility(isVisible: Boolean) {
     if (isVisible) {

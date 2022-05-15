@@ -4,27 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.artworkspace.themovie.core.data.MovieRepository
-import com.artworkspace.themovie.core.data.source.local.entity.MovieEntity
-import com.artworkspace.themovie.core.data.source.remote.response.ListCastResponse
-import com.artworkspace.themovie.core.data.source.remote.response.ListMovieResponse
-import com.artworkspace.themovie.core.data.source.remote.response.MovieResponse
+import com.artworkspace.themovie.core.domain.model.Cast
+import com.artworkspace.themovie.core.domain.model.Movie
+import com.artworkspace.themovie.core.domain.usecase.MovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val movieRepository: MovieRepository) :
+class DetailViewModel @Inject constructor(private val movieUseCase: MovieUseCase) :
     ViewModel() {
-
-    /**
-     * LiveData of movie detail information
-     *
-     * @param id Movie ID
-     * @return LiveData
-     */
-    fun getMovieDetail(id: Int): LiveData<Result<MovieResponse>> =
-        movieRepository.getMovieDetail(id).asLiveData()
 
     /**
      * LiveData of related movie
@@ -32,8 +21,8 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      * @param id Movie ID
      * @return LiveData
      */
-    fun getRelatedMovies(id: Int): LiveData<Result<ListMovieResponse>> =
-        movieRepository.getRelatedMovies(id).asLiveData()
+    fun getRelatedMovies(id: Int): LiveData<Result<List<Movie>>> =
+        movieUseCase.getRelatedMovies(id).asLiveData()
 
 
     /**
@@ -42,29 +31,18 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      * @param id Movie ID
      * @return LiveData
      */
-    fun getMovieCasts(id: Int): LiveData<Result<ListCastResponse>> =
-        movieRepository.getMovieCasts(id).asLiveData()
+    fun getMovieCasts(id: Int): LiveData<Result<List<Cast>>> =
+        movieUseCase.getMovieCasts(id).asLiveData()
 
 
     /**
      * Save a movie as favorite to the database
      *
-     * @param id Favorite movie id
+     * @param movie Movie
      */
-    fun saveMovieAsFavorite(id: Int) {
+    fun saveMovieAsFavorite(movie: Movie) {
         viewModelScope.launch {
-            movieRepository.getMovieDetail(id).collect { result ->
-                result.onSuccess { movieResponse ->
-                    val movie = MovieEntity(
-                        id = movieResponse.id,
-                        title = movieResponse.title,
-                        overview = movieResponse.overview,
-                        posterPath = movieResponse.posterPath,
-                        voteAverage = movieResponse.voteAverage
-                    )
-                    movieRepository.saveMovieAsFavorite(movie)
-                }
-            }
+            movieUseCase.saveMovieAsFavorite(movie)
         }
     }
 
@@ -76,7 +54,7 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      */
     fun deleteMovieFromFavorite(id: Int) {
         viewModelScope.launch {
-            movieRepository.deleteMovieFromFavorite(id)
+            movieUseCase.deleteMovieFromFavorite(id)
         }
     }
 
@@ -88,5 +66,5 @@ class DetailViewModel @Inject constructor(private val movieRepository: MovieRepo
      * @return LiveData
      */
     fun isFavoriteMovie(id: Int): LiveData<Boolean> =
-        movieRepository.isFavoriteMovie(id).asLiveData()
+        movieUseCase.isFavoriteMovie(id).asLiveData()
 }
