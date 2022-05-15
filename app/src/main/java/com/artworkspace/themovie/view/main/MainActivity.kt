@@ -10,12 +10,12 @@ import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
+import com.artworkspace.core.domain.model.Movie
+import com.artworkspace.core.ui.MovieHorizontalAdapter
+import com.artworkspace.core.utils.animateAlpha
+import com.artworkspace.core.utils.getImageOriginalUrl
+import com.artworkspace.core.utils.parseMovieRating
 import com.artworkspace.themovie.R
-import com.artworkspace.themovie.core.domain.model.Movie
-import com.artworkspace.themovie.core.ui.MovieHorizontalAdapter
-import com.artworkspace.themovie.core.utils.animateAlpha
-import com.artworkspace.themovie.core.utils.getImageOriginalUrl
-import com.artworkspace.themovie.core.utils.parseMovieRating
 import com.artworkspace.themovie.databinding.ActivityMainBinding
 import com.artworkspace.themovie.view.detail.DetailActivity
 import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_manu, menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 

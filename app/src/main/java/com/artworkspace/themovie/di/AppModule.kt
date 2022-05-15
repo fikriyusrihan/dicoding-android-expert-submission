@@ -1,7 +1,7 @@
 package com.artworkspace.themovie.di
 
-import com.artworkspace.themovie.core.domain.usecase.MovieInteractor
-import com.artworkspace.themovie.core.domain.usecase.MovieUseCase
+import com.artworkspace.core.domain.usecase.MovieInteractor
+import com.artworkspace.core.domain.usecase.MovieUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -8,8 +8,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.artworkspace.core.ui.MovieVerticalAdapter
 import com.artworkspace.themovie.R
-import com.artworkspace.themovie.core.ui.MovieVerticalAdapter
 import com.artworkspace.themovie.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 

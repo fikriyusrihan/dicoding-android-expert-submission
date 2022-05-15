@@ -8,10 +8,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.artworkspace.core.domain.model.Movie
+import com.artworkspace.core.ui.MovieVerticalAdapter
+import com.artworkspace.core.utils.setVisibility
 import com.artworkspace.themovie.R
-import com.artworkspace.themovie.core.domain.model.Movie
-import com.artworkspace.themovie.core.ui.MovieVerticalAdapter
-import com.artworkspace.themovie.core.utils.setVisibility
 import com.artworkspace.themovie.databinding.ActivityListBinding
 import com.artworkspace.themovie.view.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint

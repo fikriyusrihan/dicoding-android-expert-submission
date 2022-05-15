@@ -135,8 +135,7 @@
                     android:id="@+id/iv_main_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/highlighted_movie_rating"
-                    android:src="@drawable/ic_rating_4" />
+                    android:contentDescription="@string/highlighted_movie_rating" />
 
                 <TextView
                     android:id="@+id/tv_main_rating"

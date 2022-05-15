@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.artworkspace.themovie.core.domain.model.Cast
-import com.artworkspace.themovie.core.domain.model.Movie
-import com.artworkspace.themovie.core.domain.usecase.MovieUseCase
+import com.artworkspace.core.domain.model.Cast
+import com.artworkspace.core.domain.model.Movie
+import com.artworkspace.core.domain.usecase.MovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

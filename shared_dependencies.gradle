@@ -1,0 +1,30 @@
+dependencies {
+    
+    // KTX
+    implementation 'androidx.activity:activity-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-rc01"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-rc01"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+
+    // Flexbox
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.41"
+    kapt "com.google.dagger:hilt-android-compiler:2.41"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.13.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.1'
+
+    // Shimmer Loading
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // Circle Image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+}

@@ -3,8 +3,8 @@ package com.artworkspace.themovie.view.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.artworkspace.themovie.core.domain.model.Movie
-import com.artworkspace.themovie.core.domain.usecase.MovieUseCase
+import com.artworkspace.core.domain.model.Movie
+import com.artworkspace.core.domain.usecase.MovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

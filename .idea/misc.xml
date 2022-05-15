@@ -6,6 +6,10 @@
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/fg_main_poster.xml" value="0.2895" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.29" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.29" />
+        <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_cast_profile.xml" value="0.209" />
+        <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_rating_0.xml" value="0.209" />
+        <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_rating_1.xml" value="0.209" />
+        <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_rating_2.xml" value="0.209" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_the_movie.xml" value="0.209" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_toggle_favorite_background.xml" value="0.29" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/drawable/ic_toogle_background.xml" value="0.29" />
@@ -20,6 +24,11 @@
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/layout/item_movie_vertical.xml" value="0.5" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/menu/main_manu.xml" value="0.38697916666666665" />
         <entry key="..\:/Code/Android/TheMovie/app/src/main/res/menu/search_menu.xml" value="0.2015625" />
+        <entry key="..\:/Code/Android/TheMovie/core/src/main/res/drawable/ic_cast_profile.xml" value="0.209" />
+        <entry key="..\:/Code/Android/TheMovie/core/src/main/res/drawable/poster_mask.xml" value="0.29" />
+        <entry key="..\:/Code/Android/TheMovie/core/src/main/res/layout/item_movie_cast.xml" value="0.38697916666666665" />
+        <entry key="..\:/Code/Android/TheMovie/core/src/main/res/layout/item_movie_horizontal.xml" value="0.38697916666666665" />
+        <entry key="..\:/Code/Android/TheMovie/core/src/main/res/layout/item_movie_vertical.xml" value="0.38697916666666665" />
       </map>
     </option>
   </component>
