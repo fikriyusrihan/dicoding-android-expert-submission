@@ -1,5 +1,6 @@
 package com.artworkspace.themovie.view.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,9 +9,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.artworkspace.core.domain.model.Movie
 import com.artworkspace.core.ui.MovieVerticalAdapter
 import com.artworkspace.themovie.R
 import com.artworkspace.themovie.databinding.ActivitySearchBinding
+import com.artworkspace.themovie.view.detail.DetailActivity
+import com.artworkspace.themovie.view.detail.DetailActivity.Companion.EXTRA_MOVIE_DETAIL
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -76,6 +80,16 @@ class SearchActivity : AppCompatActivity() {
             result.onSuccess { movies ->
                 if (movies.isNotEmpty()) {
                     val adapter = MovieVerticalAdapter(movies)
+                    adapter.setOnItemClickCallback(object :
+                        MovieVerticalAdapter.OnItemClickCallback {
+                        override fun onItemClicked(movie: Movie) {
+                            Intent(this@SearchActivity, DetailActivity::class.java).also { intent ->
+                                intent.putExtra(EXTRA_MOVIE_DETAIL, movie)
+                                startActivity(intent)
+                            }
+                        }
+                    })
+
                     val layoutManager = LinearLayoutManager(this)
 
                     val recyclerView = binding.rvMovies
