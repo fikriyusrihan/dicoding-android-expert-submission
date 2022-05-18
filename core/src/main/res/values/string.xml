@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="highlighted_movie_poster">Highlighted movie poster</string>
+    <string name="dummy_movie_title">Doctor Strange in the Multiverse of Madness</string>
+    <string name="highlighted_movie_rating">Highlighted movie rating</string>
+    <string name="dummy_movie_rating">4.8</string>
+    <string name="dummy_movie_information">2022 | Adventure | 2h 6m</string>
+    <string name="dummy_movie_overview">Dr. Stephen Strange casts a forbidden spell that opens the doorway to the multiverse, including alternate versions of himself, whose threat to humanity is too great for the combined forces of Strange, Wong, and Wanda Maximoff.</string>
+    <string name="dummy_role">Peter Parker / Spider-Man</string>
+    <string name="dummy_cast">Tom Holland</string>
+    <string name="movie_rating">Movie rating</string>
+    <string name="movie_poster">Movie poster</string>
+</resources>
