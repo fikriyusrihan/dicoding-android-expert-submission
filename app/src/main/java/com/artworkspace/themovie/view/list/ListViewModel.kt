@@ -12,14 +12,6 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor(private val movieUseCase: MovieUseCase) :
     ViewModel() {
 
-    /**
-     * Provide all favorite movies data as LiveData
-     *
-     * @return LiveData
-     */
-    fun getAllFavoriteMovies(): LiveData<List<Movie>> =
-        movieUseCase.getAllFavoriteMovies().asLiveData()
-
     fun getAllTrendingMovies(region: String): LiveData<Result<List<Movie>>> =
         movieUseCase.getTrendingMovies(region).asLiveData()
 
