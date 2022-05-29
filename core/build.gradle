@@ -23,11 +23,16 @@ android {
         buildConfigField 'String', 'API_BASE_URL', "\"${properties.getProperty('API_ENDPOINT')}\""
         buildConfigField 'String', 'API_IMG_ENDPOINT', "\"${properties.getProperty('API_IMG_ENDPOINT')}\""
         buildConfigField 'String', 'API_IMG_ORIGINAL_ENDPOINT', "\"${properties.getProperty('API_IMG_ORIGINAL_ENDPOINT')}\""
+        buildConfigField 'String', 'API_HOSTNAME', "\"${properties.getProperty('API_HOSTNAME')}\""
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -60,6 +65,10 @@ dependencies {
     implementation("androidx.room:room-ktx:2.4.2")
     annotationProcessor("androidx.room:room-compiler:2.4.2")
     kapt("androidx.room:room-compiler:2.4.2")
+
+    // SQLCipher
+    implementation "net.zetetic:android-database-sqlcipher:4.4.0"
+    implementation "androidx.sqlite:sqlite-ktx:2.2.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
